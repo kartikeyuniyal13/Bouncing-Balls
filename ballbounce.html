@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .canvas{
+            border: 5px solid black;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="main">
+
+        <canvas  class="canvas" height="500" width="800"></canvas>
+
+    </div>
+    <script>
+       const canvas = document.querySelector(".canvas");
+    const ctx = canvas.getContext("2d");
+
+function draw(){
+background(0);
+stroke(255);
+strokeWeight(4);
+noFill();
+ellipse(x,200,100,200);
+x=x+3;
+}
+draw();
+    </script>
+</body>
+</html>

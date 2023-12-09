@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        .canvas {
+            border: 30px solid red;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas class="canvas" width="500" height="500"></canvas>
+
+    <script>
+        const canvas = document.querySelector(".canvas");
+        const ctx = canvas.getContext("2d");
+        let { width } = canvas;
+        let { height } = canvas;
+        let MOVE_AMOUNT = 10;
+       
+
+        ctx.lineJoin = 'round';
+        ctx.lineCap = 'round';
+        ctx.lineWidth = 10;
+
+        let x = Math.floor(Math.random() * width);
+        let y = Math.floor(Math.random() * height);
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+        ctx.lineTo(x, y);
+        ctx.stroke();
+
+        // object destructuring
+        function move({ key }) {
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            switch (key) {
+                case 'ArrowUp':
+                    y = Math.max(y - MOVE_AMOUNT, 0);
+                    break;
+                case 'ArrowRight':
+                    x = Math.min(x + MOVE_AMOUNT, width);
+                    break;
+                case 'ArrowDown':
+                    y = Math.min(y + MOVE_AMOUNT, height);
+                    break;
+                case 'ArrowLeft':
+                    x = Math.max(x - MOVE_AMOUNT, 0);
+                    break;
+
+                default:
+                    break;
+            }
+            ctx.lineTo(x, y);
+            ctx.stroke();
+     
+        }
+
+        function moves() {
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            var v, h;
+
+            if (x + 1 < width) {
+                h = x +1;
+                x = h;
+                v = y + 1;
+                y = v;
+            }
+            if (x + 1 >= width) {
+                x= width;
+                y = y + 1;
+                moved();
+            }
+            if (y + 1 >= height) {
+                x= x + 1;
+                y = height;
+                mover();
+            }
+            ctx.lineTo(Math.min(h, width), Math.min(v, height));
+            ctx.stroke();
+   
+        }
+
+        function movew() {
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            var v, h;
+
+            if (x - 1 > 0) {
+                h = x - 1;
+                x = h;
+                v = y - 1;
+                y = v;
+            }
+            if(x-1<=0) {
+                 x=0;
+   y=y-1;
+                  mover();
+            }
+
+
+            if(y-1<=0){
+                x=x-1;
+                y=0;
+                moves();
+            }
+            ctx.lineTo(Math.min(h, width), Math.min(v, height));
+            ctx.stroke();
+         movew();
+        }
+
+        function mover() {
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            var v, h;
+
+            if (x + 1 < width) {
+                h = x + 1;
+                x = h;
+                v = y - 1;
+                y = v;
+            }
+           if(x+1>=width) {
+               x=width;
+               y=y-1;
+               movew();
+            }
+            if (y + 1 >= height) {
+                x= x + 1;
+                y = height;
+                moved();
+            }
+            ctx.lineTo(Math.min(h, width), Math.min(v, height));
+            ctx.stroke();
+           mover();
+        }
+
+        function moved() {
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            var v, h;
+
+            if (x - 1 > 0)
+             {
+                h = x - 1;
+                x = h;
+                v = y + 1;
+                y = v;
+            }
+            if(x-1<=0) {
+                 x=0;
+   y=y-1;
+                  moves();
+            }
+            if (y + 1 >= height) {
+                x= x + 1;
+                y = height;
+                movew();
+            }
+
+
+        
+            
+            ctx.lineTo(Math.min(h, width), Math.min(v, height));
+            ctx.stroke();
+           moved();
+        }
+
+        function handleKey(e) {
+            if (e.key.startsWith('Arrow')) {
+
+               console.log(e);
+                move({ key: e.key });
+            }
+            if (e.key.includes('s')) {
+
+             
+                moves();
+            }
+            if (e.key.includes('w')) {
+
+           
+                movew();
+            }
+            if (e.key.includes('r')) {
+
+     
+                mover();
+            }
+            if (e.key.includes('d')) {
+
+         
+                moved();
+            }
+        }
+
+        window.addEventListener('keydown', handleKey);
+    </script>
+</body>
+
+</html>
